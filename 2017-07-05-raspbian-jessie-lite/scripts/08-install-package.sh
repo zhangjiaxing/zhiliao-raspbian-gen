@@ -24,8 +24,10 @@ dpkg -i *.deb
 apt-get clean
 EOF
 
+chroot "${ROOTDIR}" /bin/bash <./scripts/08-install-package/networkmanager.sh
 
-umount "${ROOTDIR}"/etc/apt/sources.list
-umount "${ROOTDIR}"/etc/apt/sources.list.d/raspi.list
+
+# umount "${ROOTDIR}"/etc/apt/sources.list
+# umount "${ROOTDIR}"/etc/apt/sources.list.d/raspi.list
 umount "${ROOTDIR}"/var/cache/apt
 
