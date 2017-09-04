@@ -1,0 +1,6 @@
+unit: sectors
+
+/dev/sdb1 : start=        8192, size=       85405, Id=c
+/dev/sdb2 : start=       94208, size=     6291456, Id=83
+/dev/sdb3 : start=     6385664, size=     6291456, Id=83
+/dev/sdb4 : start=    12677120, size=    16777216, Id=83

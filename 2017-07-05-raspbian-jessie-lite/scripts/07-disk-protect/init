@@ -1,0 +1,92 @@
+#!/bin/sh
+
+PATH=/bin
+ROOT=
+init=
+
+mount -t devtmpfs devtmpfs /dev
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+
+echo "4 4 1 7" > /proc/sys/kernel/printk
+
+mkdir /sysroot
+
+sleep 4
+
+if [ "$(ls /dev/sd* 2>/dev/null)" != "" ]; then
+    sleep 5
+    mount -t ext4 -o ro LABEL=RESCUE_VOL /sysroot
+    ret="$?"
+
+    if [ "$ret" = "0" ]; then
+        umount /sys
+        umount /proc
+        umount /dev
+
+        exec switch_root /sysroot /sbin/init
+        exec sh
+    fi
+fi
+
+
+# Parse command line options
+for x in $(cat /proc/cmdline); do
+    case $x in
+    init=*)
+        init=${x#init=}
+        ;;
+    root=*)
+        ROOT=${x#root=}
+        ;;
+    esac
+done
+
+if [ "$ROOT" = "" ]; then
+	ROOT="LABEL=rootfs"
+fi
+
+if [ "$init" = "" ]; then
+	init="/sbin/init"
+fi
+
+
+mkdir /boot-init
+mount -t vfat -o ro LABEL=boot /boot-init/
+if [ -f /boot-init/zhiliao/rootfs-protect ]; then
+    PROTECT=1
+else
+    PROTECT=0
+fi
+umount /boot-init
+
+
+if [ "${PROTECT}" = "0" ]; then
+    mount -t ext4 -o ro "$ROOT" /sysroot
+else
+    modprobe overlay
+
+    mkdir /rom /overlay
+    mount -t ext4 -o ro "$ROOT" /rom
+    mount -t tmpfs -o size=512M tmpfs /overlay
+    mkdir /overlay/rootfs /overlay/work
+    mount -t overlay -o lowerdir=/rom,upperdir=/overlay/rootfs,workdir=/overlay/work overlay /sysroot
+    mount -t vfat -o ro LABEL=boot /sysroot/boot
+
+    mkdir /sysroot/rom /sysroot/overlay
+    mount --move /rom /sysroot/rom
+    mount --move /overlay /sysroot/overlay
+    # echo -n > /sysroot/etc/fstab
+    echo "LABEL=data    /data   ext4    defaults,noatime    0   3" > /sysroot/etc/fstab
+fi
+
+# mount -t ext4 -o rw LABEL=data /sysroot/data
+
+umount /sys
+umount /proc
+umount /dev
+
+exec switch_root -c /dev/console /sysroot "$init"
+
+exec sh
+
