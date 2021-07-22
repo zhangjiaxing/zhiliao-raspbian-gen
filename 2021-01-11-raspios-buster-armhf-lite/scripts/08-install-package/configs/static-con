@@ -1,0 +1,10 @@
+[connection]
+id=static-con
+uuid=04b0befc-5054-44e4-9784-c0c123c14b36
+interface-name=eth0
+type=ethernet
+autoconnect=false
+
+[ipv4]
+method=manual
+address1=192.168.1.200/24,192.168.1.1

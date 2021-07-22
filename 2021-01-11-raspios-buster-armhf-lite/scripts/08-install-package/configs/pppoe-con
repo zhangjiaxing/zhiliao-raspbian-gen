@@ -1,0 +1,9 @@
+[pppoe]
+username=username@pppoe
+password=123456
+
+[connection]
+id=pppoe-con
+uuid=28683903-fac0-464a-a59c-a1bbd29bc16a
+type=pppoe
+autoconnect=false

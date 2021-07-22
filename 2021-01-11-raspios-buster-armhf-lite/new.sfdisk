@@ -1,0 +1,7 @@
+label: dos
+label-id: 0x738a4d67
+device: /dev/loop0
+unit: sectors
+
+/dev/loop0p1 : start=        8192, size=      524288, type=c
+/dev/loop0p2 : start=      532480, size=     4096000, type=83

@@ -1,0 +1,6 @@
+unit: sectors
+
+/dev/sda1 : start=        8192, size=      524288, type=c
+/dev/sda2 : start=      532480, size=     6291456, type=83
+/dev/sda3 : start=     6823936, size=     6291456, type=83
+/dev/sda4 : start=    13115392, size=    16338944, type=83

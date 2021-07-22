@@ -1,0 +1,5 @@
+[connection]
+id=dhcp-con
+uuid=e6083f87-ec1b-4527-af75-b4ca6638c4c5
+interface-name=eth0
+type=ethernet

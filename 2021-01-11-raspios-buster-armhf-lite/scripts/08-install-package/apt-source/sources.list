@@ -1,0 +1,6 @@
+deb https://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib
+# deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib
+
+deb https://mirrors.ustc.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+#deb-src http://mirrors.ustc.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi
+
